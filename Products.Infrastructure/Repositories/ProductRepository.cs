@@ -9,10 +9,10 @@ namespace Products.Infrastructure.Repositories;
 
 public class ProductRepository : RepositoryBase<Product>, IProductRepository, IBrandRepository, ITypesRepository
 {
-   
+
     public ProductRepository(CatalogContext dbContext) : base(dbContext)
     {
-       
+
     }
 
     public async Task<Pagination<Product>> GetProducts(CatalogSpecParams catalogSpecParams)
@@ -48,6 +48,7 @@ public class ProductRepository : RepositoryBase<Product>, IProductRepository, IB
                     break;
             }
         }
+        else { builder = builder.OrderByDescending(a => a.Id); }
 
         return new Pagination<Product>
         {
@@ -97,7 +98,7 @@ public class ProductRepository : RepositoryBase<Product>, IProductRepository, IB
     public async Task<bool> UpdateProduct(Product product)
     {
         if (product == null) return false;
-       
+
 
         var updateResult = _dbContext
             .Products.Update(product);
@@ -115,7 +116,7 @@ public class ProductRepository : RepositoryBase<Product>, IProductRepository, IB
         }
 
         return false;
-   
+
     }
 
     public async Task<IEnumerable<ProductBrand>> GetAllBrands()
